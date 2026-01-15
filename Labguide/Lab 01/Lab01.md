@@ -1,4 +1,4 @@
-## Use case 01: Real-time parcel delivery monitoring with Microsoft Fabric (L400-RTI)
+## Use case 01: Real-time parcel delivery monitoring with Microsoft Fabric 
 
 **Scenario: The Fabrikam Frenzy – Real-Time Intelligence Under
 Pressure**
@@ -104,8 +104,7 @@ incorrect.](./media/image9.png)
 11. On the left-side navigation pane of your Storage Account, select
     **Data storage** section and then select **Containers**.
 
-> ![A screenshot of a computer AI-generated content may be
-> incorrect.](./media/image11.png)
+> ![](./media/image11.png)
 
 12. Click **Add Container.**
 
@@ -737,9 +736,10 @@ incorrect.](./media/image104.png)
 
 ## Task 4: Accessing Eventhouse data from the lakehouse 
 
-1.  Click on the icon **RealTimeWorkspaceXXX** in the left toolbar.![A
-    screenshot of a computer AI-generated content may be
-    incorrect.](./media/image105.png)
+1.  Click on the icon **RealTimeWorkspaceXXX** in the left toolbar.
+
+![A screenshot of a computer AI-generated content may be
+incorrect.](./media/image105.png)
 
 2.  Select the **L400_Eventhouse**
 
@@ -857,72 +857,86 @@ incorrect.](./media/image117.png)
 > incorrect.](./media/image127.png)
 
 12. Click on the node **Transform events or add Destination** and
-    select **Filter** from the menu.
+    select **Eventhouse** from the menu.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image128.png)
 
+13. Provide the following values in the pane **Eventhouse**. Click the
+    button **Save** after you entered all the values.
+
+[TABLE]
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image129.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image130.png)
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image130.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image131.png)
+14. From the menu ribbon, select **Publish**.
+
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image131.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image132.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image133.png)
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image133.png)
 
--- Step 2: Insert the product data
+15. Return to the **SQL Database Query Editor**, select **+ New query**,
+    paste the provided product data SQL script into the query editor,
+    and then execute the query to insert the data.
 
-INSERT INTO dbo.Products (ProductId, ProductName, SKU, Brand, Category, UnitCost) VALUES
-
-('PROD4000', 'Cyberpunk Hat', 'SKU4000', 'AirRun', 'Altars', 133.79),
-
-('PROD4001', 'CloudShell Jacket', 'SKU4001', 'AirRun', 'Kids', 272.67),
-
-('PROD4002', 'Oldschool Cardigan', 'SKU4002', 'UrbanStep', 'GenZ Pros', 295.88),
-
-('PROD4003', 'TropicFeel Tshirt', 'SKU4003', 'UrbanStep', 'Colours', 138.43),
-
-('PROD4004', 'ClassicWear Hoodie', 'SKU4004', 'ClassicWear', 'Kids', 63.33),
-
-('PROD4005', 'TropicFeel Tshirt', 'SKU4005', 'AirRun', 'GenZ Pros', 182.16),
-
-('PROD4006', 'UrbanStep Shoes', 'SKU4006', 'ZAVA', 'Colours', 36.00),
-
-('PROD4007', 'UrbanStep Shoes', 'SKU4007', 'UrbanStep', 'Altars', 35.92),
-
-('PROD4008', 'UrbanStep Shoes', 'SKU4008', 'ZAVA', 'Altars', 39.18),
-
-('PROD4009', 'Cyberpunk Hat', 'SKU4009', 'AirRun', 'Kids', 53.56),
-
-('PROD4010', 'UrbanStep Shoes', 'SKU4010', 'AirRun', 'GenZ Pros', 193.42),
-
-('PROD4011', 'CloudShell Jacket', 'SKU4011', 'ClassicWear', 'Colours', 281.71),
-
-('PROD4012', 'Oldschool Cardigan', 'SKU4012', 'StreetFlex', 'Altars', 94.36),
-
-('PROD4013', 'Oldschool Cardigan', 'SKU4013', 'StreetFlex', 'Kids', 108.52),
-
-('PROD4014', 'Cyberpunk Hat', 'SKU4014', 'ZAVA', 'Kids', 193.91),
-
-('PROD4015', 'UrbanStep Shoes', 'SKU4015', 'ZAVA', 'GenZ Pros', 170.53),
-
-('PROD4016', 'UrbanStep Shoes', 'SKU4016', 'StreetFlex', 'Altars', 281.30),
-
-('PROD4017', 'Cyberpunk Hat', 'SKU4017', 'AirRun', 'Colours', 99.79),
-
-('PROD4018', 'CloudShell Jacket', 'SKU4018', 'ClassicWear', 'Colours', 191.26),
-
-('PROD4019', 'ClassicWear Hoodie', 'SKU4019', 'ClassicWear', 'GenZ Pros', 206.99);
+> -- Step 2: Insert the product data
+>
+> INSERT INTO dbo.Products (ProductId, ProductName, SKU, Brand, Category, UnitCost) VALUES
+>
+> ('PROD4000', 'Cyberpunk Hat', 'SKU4000', 'AirRun', 'Altars', 133.79),
+>
+> ('PROD4001', 'CloudShell Jacket', 'SKU4001', 'AirRun', 'Kids', 272.67),
+>
+> ('PROD4002', 'Oldschool Cardigan', 'SKU4002', 'UrbanStep', 'GenZ Pros', 295.88),
+>
+> ('PROD4003', 'TropicFeel Tshirt', 'SKU4003', 'UrbanStep', 'Colours', 138.43),
+>
+> ('PROD4004', 'ClassicWear Hoodie', 'SKU4004', 'ClassicWear', 'Kids', 63.33),
+>
+> ('PROD4005', 'TropicFeel Tshirt', 'SKU4005', 'AirRun', 'GenZ Pros', 182.16),
+>
+> ('PROD4006', 'UrbanStep Shoes', 'SKU4006', 'ZAVA', 'Colours', 36.00),
+>
+> ('PROD4007', 'UrbanStep Shoes', 'SKU4007', 'UrbanStep', 'Altars', 35.92),
+>
+> ('PROD4008', 'UrbanStep Shoes', 'SKU4008', 'ZAVA', 'Altars', 39.18),
+>
+> ('PROD4009', 'Cyberpunk Hat', 'SKU4009', 'AirRun', 'Kids', 53.56),
+>
+> ('PROD4010', 'UrbanStep Shoes', 'SKU4010', 'AirRun', 'GenZ Pros', 193.42),
+>
+> ('PROD4011', 'CloudShell Jacket', 'SKU4011', 'ClassicWear', 'Colours', 281.71),
+>
+> ('PROD4012', 'Oldschool Cardigan', 'SKU4012', 'StreetFlex', 'Altars', 94.36),
+>
+> ('PROD4013', 'Oldschool Cardigan', 'SKU4013', 'StreetFlex', 'Kids', 108.52),
+>
+> ('PROD4014', 'Cyberpunk Hat', 'SKU4014', 'ZAVA', 'Kids', 193.91),
+>
+> ('PROD4015', 'UrbanStep Shoes', 'SKU4015', 'ZAVA', 'GenZ Pros', 170.53),
+>
+> ('PROD4016', 'UrbanStep Shoes', 'SKU4016', 'StreetFlex', 'Altars', 281.30),
+>
+> ('PROD4017', 'Cyberpunk Hat', 'SKU4017', 'AirRun', 'Colours', 99.79),
+>
+> ('PROD4018', 'CloudShell Jacket', 'SKU4018', 'ClassicWear', 'Colours', 191.26),
+>
+> ('PROD4019', 'ClassicWear Hoodie', 'SKU4019', 'ClassicWear', 'GenZ Pros', 206.99);
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image134.png)
+
+1.  Return to the **sql_eventstream**, click **Refresh**, and verify
+    that the data has been updated successfully.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image135.png)
@@ -930,17 +944,30 @@ incorrect.](./media/image135.png)
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image136.png)
 
+2.  Click on the icon **L400_Eventhouse** in the top toolbar.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image137.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image138.png)
 
+# Exercise 4: Ingest Shipping Data from Azure Storage Container into Eventhouse
+
+## Task 1: Create a Workspace Identity 
+
+1.  Click on the icon **RealTimeWorkspaceXXX** in the left toolbar.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image139.png)
 
+2.  From the menu ribbon, select **Workspace settings**.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image140.png)
+
+3.  In the **Workspace identity** settings pane and select **+ Workspace
+    identity**
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image141.png)
@@ -948,20 +975,45 @@ incorrect.](./media/image141.png)
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image142.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image143.png)
+## Task 2: Assign Storage Blob Data Contributor Role to Fabric Workspace
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image144.png)
+1.  Open your browser, navigate to the address bar, and type or paste
+    the following URL:+++<https://portal.azure.com/+++>, then press
+    the **Enter** button.
+
+2.  Select ResourceGroup1.
+
+3.  In the **Resource Group Overview**, select the storage account named
+    **l400storageXXX**.![A screenshot of a computer AI-generated content
+    may be incorrect.](./media/image143.png)
+
+4.  From the left menu, click on the **Access control(IAM**). On the
+    Access control(IAM) page, Click **+Add** and select **Add role
+    assignments**.
+
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image144.png)
+
+5.  Type the **Stronge Blob Data Contributor** in the search box and
+    select it. Click **Next**
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image145.png)
 
+6.  In the **Add role assignment** tab, select Assign access to User
+    group or service principal. Under Members, click **+Select members**
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image146.png)
 
+7.  On the Select members tab , search your Fabric workspace and
+    click **Select.**
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image147.png)
+
+8.  In the **Add role assignment** page, Click **Review + Assign**, you
+    will get a notification once the role assignment is complete.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image148.png)
@@ -969,53 +1021,102 @@ incorrect.](./media/image148.png)
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image149.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image150.png)
+9.  You will see a notification – added as **Stronge Blob Data
+    Contributor**  for Azure Pass-Sponsorship.
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image151.png)
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image150.png)
+
+## Task 3: Import Shipping Data Notebook
+
+1.  Return to the Fabric workspace .
+
+2.  On the **RealTimeWorkspace** page, from the menu bar, navigate and
+    click on **-\>|Import** button, then select **Notebook** and
+    select **From this computer** as shown in the below image.
+
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image151.png)
+
+3.  Select **Upload** from the **Import status** pane that appears on
+    the right side of the screen.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image152.png)
 
+4.  Navigate and select **Shipping Simulator** notebooks
+    from **C:\LabFiles**and click on the **Open** button.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image153.png)
+
+5.  Then, select the **Shipping Simulator**  notebook.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image154.png)
 
+6.  Select the cell ,paste the **BLOB_CONNECTION_STRING and
+    CONTAINER_NAME** (the value that you have saved in your notepad in
+    the Exercise 1\> **Task 2\>Step 13)**, select the **Run** icon that
+    appears on the left side of the cell.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image155.png)
+
+7.  The last code cell its still running continue the next steps.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image156.png)
 
+8.  Now, click on **L400_Eventhouse** on the top navigation pane.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image157.png)
+
+9.  Click on the button **Get data** in the menu bar at the top.
+    Choose **Azure Storage** from the dropdown menu.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image158.png)
 
+10. Select the **+ New table**
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image159.png)
+
+11. Enter the new table name as +++**shipping+++**
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image160.png)
 
+12. Configure the Azure Blob Storage source by selecting **Connect to a
+    storage account**, choosing the appropriate **Subscription**, **Blob
+    storage account**, and **Container (shipping-events)**, then create
+    a **New connection** to complete the setup.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image161.png)
+
+13. Click on **Save** button
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image162.png)
 
+14. Select **Next**
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image163.png)
+
+15. Click on **Finish** button
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image164.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image165.png)
+16. The **Get data** process will take approximately **10–13 minutes**
+    to complete.![A screenshot of a computer AI-generated content may be
+    incorrect.](./media/image165.png)
+
+17. Click on **Close** button
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image166.png)
@@ -1023,32 +1124,60 @@ incorrect.](./media/image166.png)
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image167.png)
 
+# Exercise 5: Share Weather Data with Fabrikam Distributors and Configure Hourly Alerts for the US Region
+
+## Task 1: Create derived stream
+
+1.  Click on the icon **Real-Time** in the left toolbar.
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image168.png)
+
+2.  In the **Data sources** pane, search for **Real-time weather**, and
+    then select **Connect** to start ingesting live weather data into
+    the Eventstream.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image169.png)
 
-**5. Make weather data available to all Fabrikam distributors and setup
-hourly alerts for US region**
+3.  Select **United States (US)** as the location for ingesting
+    real-time weather data, verify the **Eventstream name** as
+    **weather_eventstream**, and then click **Next** to continue.
+
+> ![A screenshot of a computer screen AI-generated content may be
+> incorrect.](./media/image170.png)
+
+4.  Click on **Connect** button
+
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image171.png)
+
+5.  Click on **Finish** button
 
 ![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image170.png)
-
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image171.png)
-
-![A screenshot of a computer screen AI-generated content may be
 incorrect.](./media/image172.png)
+
+6.  Click on the node **Transform events or add Destination** and
+    select **Activator** from the menu.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image173.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image174.png)
+7.  Select the **RealTimeWorkspace400L** workspace, create a new
+    **Activator** by entering +++**temperature+++** as the activator
+    name, keep the input data format as **JSON**, and then click
+    **Done** to save the configuration.
+
+> ![A screenshot of a computer AI-generated content may be
+> incorrect.](./media/image174.png)
+
+8.  Click on **Save**
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image175.png)
+
+9.  Click on the button **Publish** that is located in the toolbar at
+    the top of the screen.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image176.png)
@@ -1056,20 +1185,20 @@ incorrect.](./media/image176.png)
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image177.png)
 
+10. Click on the icon **RealTimeWorkspaceXXX** in the left toolbar and
+    select **temperature**
+
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image178.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image179.png)
 
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image180.png)
+11. Under the **Events** tab, select **New rule** to create a new event
+    rule.![A screenshot of a computer AI-generated content may be
+    incorrect.](./media/image180.png)
+
+12. Enter the valid email and click on Start button
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image181.png)
-
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image182.png)
-
-![A screenshot of a computer AI-generated content may be
-incorrect.](./media/image183.png)
