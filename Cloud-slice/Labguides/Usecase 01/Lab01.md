@@ -1,4 +1,4 @@
-## Use case 01: Real-time parcel delivery monitoring with Microsoft Fabric 
+## Usecase 01-Build a Real-Time Parcel Delivery Monitoring Solution with Microsoft Fabric
 
 **Scenario: The Fabrikam Frenzy – Real-Time Intelligence Under
 Pressure**
@@ -1202,3 +1202,4 @@ incorrect.](./media/image179.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image181.png)
+
