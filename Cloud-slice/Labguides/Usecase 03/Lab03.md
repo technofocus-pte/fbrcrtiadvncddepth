@@ -1,5 +1,20 @@
 # Lab 3: Real-Time Product Clickstream Monitoring and Insights using Microsoft Fabric
 
+**Introduction**
+In the previous use case, Fabrikam established real-time visibility across manufacturing, logistics, weather, and shipment operations to proactively manage disruptions. As operational stability improves, the next critical challenge is understanding customer behavior as it happens.
+In this lab, Fabrikam extends its real-time intelligence platform to capture and analyze live product clickstream data from its e-commerce channels. By monitoring customer interactions—such as product clicks, add-to-cart actions, and purchases—teams can detect demand surges instantly, identify high-performing products, and uncover growth opportunities. This lab focuses on transforming raw clickstream events into actionable insights using Microsoft Fabric Real-Time Intelligence.
+**Objectives**
+•	By completing this lab, you will be able to:
+•	Ingest real-time clickstream events using Eventstream and custom endpoints.
+•	Stream clickstream data into Eventhouse for low-latency analytics.
+•	Analyze customer behavior and product demand using Kusto Query Language (KQL).
+•	Identify top-demand products and evaluate pricing and cost impact in real time.
+•	Build growth opportunity insights based on referral platforms, devices, and traffic trends.
+•	Operationalize insights using Dataflow Gen2, Pipelines, and scheduled updates.
+•	Visualize real-time demand and traffic patterns using Power BI.
+•	Enable AI-driven exploration of real-time data using a Fabric Data Agent.
+
+
 ## Task 1: Set Up an Eventstream and Create Custom Endpoints
 
 1.  Now, click on **RealTimeWorkspaceXXX** on the left-sided navigation
@@ -130,7 +145,15 @@ incorrect.](./media/image15.png)
 13. Provide the following values in the pane **Eventhouse**. Click the
     button **Save** after you entered all the values.
 
-[TABLE]
+| Field                          | Value |
+|--------------------------------|-------|
+| Event processing before ingestion | Ensure that this option is selected. |
+| Workspace                      | Select **RealTimeWorkspaceXXX**. If you attend the Precon at dataMinds Connectrope, select the workspace name that was provided to you. |
+| Eventhouse                     | Select the Eventhouse **L400_Eventhouse** |
+| KQL Database                   | Select the KQL Database **L400_Eventhouse** |
+| Destination table              | Click **Create new**, enter **+++clickstream+++** as the table name, and click **Done** |
+| Input data format              | Ensure that the **JSON** option is selected |
+
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image22.png)
@@ -169,21 +192,15 @@ incorrect.](./media/image27.png)
 3.  In the query editor, paste the provided code to top 3 products by
     demand, then click **Run** to execute the query. After execution,
     the results will be displayed.
-
+```
 //top 3 products by demand
-
 //summarize is similar to group by in sql
-
 clickstream
-
-| where event_type in ("purchase_completed", "add_to_cart",
-"product_click", "checkout_initiated")
-
+| where event_type in ("purchase_completed", "add_to_cart", "product_click", "checkout_initiated")
 | summarize TotalDemand = count() by product_id
-
 | top 3 by TotalDemand desc
-
 | project TotalDemand, product_id
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image29.png)
@@ -193,19 +210,14 @@ incorrect.](./media/image29.png)
 5.  In the query editor, paste the provided code to see the cost of
     those top 3 products, then click **Run** to execute the query. After
     execution, the results will be displayed.
-
-//let\`s see the cost of those top 3 products
-
+```
+//let`s see the cost of those top 3 products
 clickstream
-
-| where event_type in ("purchase_completed", "add_to_cart",
-"product_click", "checkout_initiated")
-
+| where event_type in ("purchase_completed", "add_to_cart", "product_click", "checkout_initiated")
 | summarize TotalDemand = count() by product_id
-
 | top 3 by TotalDemand desc
-
 | join products_silver on $left.product_id == $right.ProductId
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image30.png)
@@ -216,12 +228,10 @@ incorrect.](./media/image30.png)
     table products_silver to test out the cost increase, then click
     **Run** to execute the query. After execution, the results will be
     displayed.
-
-//let\`s create a copy of the table products_silver to test out the cost
-increase
-
-.create table product_copy (ProductId:string, ProductName:string,
-SKU:string, Brand:string, Category:string, UnitCost:int)
+```
+//let`s create a copy of the table products_silver to test out the cost increase
+.create table product_copy (ProductId:string, ProductName:string, SKU:string, Brand:string, Category:string, UnitCost:int)
+```
 
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image31.png)
@@ -232,13 +242,11 @@ SKU:string, Brand:string, Category:string, UnitCost:int)
     time load, now our table looks like the product table, then click
     **Run** to execute the query. After execution, the results will be
     displayed.
-
-> //recommended for one time load, now our table looks like the product
-> table
->
-> .set-or-replace product_copy \<|
->
-> products_silver
+```
+//recommended for one time load, now our table looks like the product table
+.set-or-replace product_copy <|
+products_silver
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image32.png)
@@ -247,13 +255,10 @@ incorrect.](./media/image32.png)
 
 11. In the query editor, paste the provided code, then click **Run** to
     execute the query. After execution, the results will be displayed.
-
-//let\`s also save the result of the TOP 3 products in another table,
-because we\`ll need it in the update command, the let Delete or Append
-only accepts the table name you are modifying
-
-.create table Top3Products (ProductId:string, ProductName:string,
-SKU:string, Brand:string, Category:string, UnitCost:int)
+```
+//let`s also save the result of the TOP 3 products in another table, because we`ll need it in the update command, the let Delete or Append only accepts the table name you are modifying 
+.create table Top3Products (ProductId:string, ProductName:string, SKU:string, Brand:string, Category:string, UnitCost:int)
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image33.png)
@@ -263,21 +268,15 @@ incorrect.](./media/image33.png)
 13. In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-.set-or-replace Top3Products \<|
-
+```
+.set-or-replace Top3Products <|
 clickstream
-
-| where event_type in ("purchase_completed", "add_to_cart",
-"product_click", "checkout_initiated")
-
+| where event_type in ("purchase_completed", "add_to_cart", "product_click", "checkout_initiated")
 | summarize TotalDemand = count() by product_id
-
 | top 3 by TotalDemand desc
-
 | join products_silver on $left.product_id == $right.ProductId
-
 | project ProductId, ProductName, SKU, Brand, Category, UnitCost;
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image34.png)
@@ -285,21 +284,15 @@ incorrect.](./media/image34.png)
 14. In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-//to update we\`ll use a .update command that uses append and delete
-
-.update table product_copy delete top3Products append
-Top3ProductsWithUpdatedCost \<|
-
+```
+//to update we`ll use a .update command that uses append and delete
+.update table product_copy delete top3Products append Top3ProductsWithUpdatedCost <|
 let top3Products = product_copy
-
 | where ProductId in (Top3Products | project ProductId );
-
 let Top3ProductsWithUpdatedCost = product_copy
-
 | where ProductId in (Top3Products | project ProductId )
-
-| extend UnitCost = toint(UnitCost + UnitCost \* 0.15);
+| extend UnitCost = toint(UnitCost + UnitCost * 0.15);
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image35.png)
@@ -309,29 +302,18 @@ incorrect.](./media/image35.png)
 16. In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-//great, now run again the query that finds out the Top 3 products, they
-aren\`t the same right?
-
+```
+//great, now run again the query that finds out the Top 3 products, they aren`t the same right?
 // that is why we need to have a pipe
-
-//in the pipe we\`ll create 1 KQL acitivity where we\`ll update our top
-3 products daily
-
-.set-or-replace Top3Products \<|
-
+//in the pipe we`ll create 1 KQL acitivity where we`ll update our top 3 products daily
+.set-or-replace Top3Products <|
 clickstream
-
-| where event_type in ("purchase_completed", "add_to_cart",
-"product_click", "checkout_initiated") and ingestion_time() \> ago(1d)
-
+| where event_type in ("purchase_completed", "add_to_cart", "product_click", "checkout_initiated") and ingestion_time() > ago(1d)
 | summarize TotalDemand = count() by product_id
-
 | top 3 by TotalDemand desc
-
 | join products_silver on $left.product_id == $right.ProductId
-
 | project ProductId, ProductName, SKU, Brand, Category, UnitCost;
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image36.png)
@@ -341,22 +323,15 @@ incorrect.](./media/image36.png)
 18. In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-//the 2nd KQL activity will update the products table with the cost
-increased by 15% for the most demanded products
-
-.update table product_copy delete top3Products append
-Top3ProductsWithUpdatedCost \<|
-
+```
+//the 2nd KQL activity will update the products table with the cost increased by 15% for the most demanded products
+.update table product_copy delete top3Products append Top3ProductsWithUpdatedCost <|
 let top3Products = product_copy
-
 | where ProductId in (Top3Products | project ProductId );
-
 let Top3ProductsWithUpdatedCost = product_copy
-
 | where ProductId in (Top3Products | project ProductId )
-
-| extend UnitCost = toint(UnitCost + UnitCost \* 0.15);
+| extend UnitCost = toint(UnitCost + UnitCost * 0.15);
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image37.png)
@@ -368,21 +343,15 @@ incorrect.](./media/image37.png)
 2.  In the query editor, paste the provided code to get demand product,
     then click **Run** to execute the query. After execution, the
     results will be displayed.
-
-> //in demand product
->
-> clickstream
->
-> | where event_type in ("purchase_completed", "add_to_cart",
-> "product_click", "checkout_initiated")
->
-> | summarize TotalDemand = count() by product_id
->
-> | top 1 by TotalDemand desc
->
-> | join products_silver on $left.product_id == $right.ProductId
->
-> | project ProductName
+```
+//in demand product
+clickstream
+| where event_type in ("purchase_completed", "add_to_cart", "product_click", "checkout_initiated")
+| summarize TotalDemand = count() by product_id
+| top 1 by TotalDemand desc
+| join products_silver on $left.product_id == $right.ProductId
+| project ProductName
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image38.png)
@@ -392,21 +361,14 @@ incorrect.](./media/image38.png)
 4.  In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
+```
 //website with highest traffic
-
-> //you mean referral platform
->
-> clickstream
->
-> | where event_type in ("purchase_completed", "add_to_cart",
-> "product_click", "checkout_initiated") and
-> isnotempty(referral_platform)
->
-> | summarize TotalDemand = count() by referral_platform
->
-> | top 1 by TotalDemand desc
->
+//you mean referral platform
+clickstream
+| where event_type in ("purchase_completed", "add_to_cart", "product_click", "checkout_initiated") and isnotempty(referral_platform) 
+| summarize TotalDemand = count() by referral_platform
+| top 1 by TotalDemand desc
+```
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image39.png)
 
@@ -415,20 +377,15 @@ incorrect.](./media/image38.png)
 6.  In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-> // product clicks over time
->
-> clickstream
->
-> | where event_type == "product_click"
->
-> | extend EventTime = todatetime(timestamp)
->
-> | extend ClickTime = bin(EventTime, 1h)
->
-> | summarize NumberOfClicks = count() by product_id, ClickTime
->
-> | order by ClickTime asc
+```
+// product clicks over time
+clickstream
+| where event_type == "product_click"
+| extend EventTime = todatetime(timestamp)
+| extend ClickTime = bin(EventTime, 1h)
+| summarize NumberOfClicks = count() by product_id, ClickTime
+| order by ClickTime asc
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image40.png)
@@ -438,18 +395,14 @@ incorrect.](./media/image40.png)
 8.  In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-> //product clicks over time
->
-> clickstream
->
-> | where event_type in ("product_click")
->
-> | extend ClickTime = bin(todatetime(timestamp), 1h)
->
-> | summarize NumberOfClicks = count() by product_id, ClickTime
->
-> | order by ClickTime asc
+```
+//product clicks over time 
+clickstream
+| where event_type in ("product_click")
+| extend ClickTime = bin(todatetime(timestamp), 1h)
+| summarize NumberOfClicks = count() by product_id, ClickTime
+| order by ClickTime asc
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image41.png)
@@ -459,15 +412,12 @@ incorrect.](./media/image41.png)
 10. In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-> //website traffic distribution
->
-> clickstream
->
-> | where isnotempty(referral_platform)
->
-> | summarize Websites = count() by referral_platform
-
+```
+//website traffic distribution
+clickstream
+| where isnotempty(referral_platform) 
+| summarize Websites = count() by referral_platform
+```
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image42.png)
 
@@ -476,14 +426,12 @@ incorrect.](./media/image42.png)
 12. In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-> //device traffic distribution
->
-> clickstream
->
-> | where isnotempty(referral_source_type)
->
-> | summarize Traffic = count() by referral_source_type
+```
+//device traffic distribution
+clickstream
+| where isnotempty(referral_source_type) 
+| summarize Traffic = count() by referral_source_type
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image43.png)
@@ -493,26 +441,17 @@ incorrect.](./media/image43.png)
 14. In the query editor, copy and paste the following code. Click on
     the **Run** button to execute the query. After the query is
     executed, you will see the results.
-
-> //forecast the temperature
->
-> manufacturing
->
-> | extend timestamp = todatetime(timestamp)
->
-> | where DefectProbability == "Anomaly"
->
-> // Creates a time series of average temperature values, grouped into
-> 1-hour intervals over the past 1 day
->
-> | make-series avg_temp=avg(Temperature) on timestamp from ago(3d) to
-> now() step 6m
->
-> // Applies anomaly detection to the temperature series, 7h
->
-> | extend forecast = series_decompose_forecast(avg_temp,48)
->
-> | render timechart
+```
+//forecast the temperature
+manufacturing
+| extend timestamp = todatetime(timestamp) 
+| where DefectProbability == "Anomaly"
+// Creates a time series of average temperature values, grouped into 1-hour intervals over the past 1 day
+| make-series avg_temp=avg(Temperature) on timestamp from ago(3d) to now() step 6m 
+// Applies anomaly detection to the temperature series, 7h
+| extend forecast = series_decompose_forecast(avg_temp,48) 
+| render timechart 
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image44.png)
@@ -570,38 +509,38 @@ incorrect.](./media/image52.png)
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image53.png)
 
-2.  Select **RealTimeworkspace** in the left-sided navigation menu to
+8.  Select **RealTimeworkspace** in the left-sided navigation menu to
     return to the workspace item list.
 
-3.  Select the **New item** option on the workspace page.
+9.  Select the **New item** option on the workspace page.
     Select **Pipeline** from the new item flyout menu.
 
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image54.png)
 
-4.  Provide a Pipeline Name as **+++datafactory_pipeline+++** and then
+10.  Provide a Pipeline Name as **+++datafactory_pipeline+++** and then
     select **Create**.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image55.png)
 
-8.  Select Dataflow
+11.  Select Dataflow
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image56.png)
 
-9.  Select workspace and dataflow
+12.  Select workspace and dataflow
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image57.png)
 
-10. On the **Home** tab of the pipeline editor window, select
+13. On the **Home** tab of the pipeline editor window, select
     the **Run** button to manually trigger the run of the pipeline.
 
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image58.png)
 
-11. On the **Save and run?** dialog box, select **Save and run** to
+14. On the **Save and run?** dialog box, select **Save and run** to
     execute these activities. This activity will take around 1-2 min.
 
 > ![A screenshot of a computer AI-generated content may be
@@ -610,19 +549,19 @@ incorrect.](./media/image57.png)
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image60.png)
 
-12. On the **Home** tab of the pipeline editor window,
+15. On the **Home** tab of the pipeline editor window,
     select **Schedule**.
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image61.png)
 
-13. Select **+ Add schedule** and configure the schedule as required
+16. Select **+ Add schedule** and configure the schedule as required
     then select **Save** and close the **Schedule** panel.
 
 ![A screenshot of a schedule AI-generated content may be
 incorrect.](./media/image62.png)
 
-14. Select the Daily as schedule and click on Save button
+17. Select the Daily as schedule and click on Save button
 
 ![A screenshot of a schedule AI-generated content may be
 incorrect.](./media/image63.png)
@@ -819,3 +758,4 @@ incorrect.](./media/image94.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image95.png)
+
