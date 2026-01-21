@@ -36,6 +36,14 @@ dissatisfaction, and reputational damage. The company urgently needs
 product availability, and fulfill customer promises despite rapidly
 shifting conditions.
 
+**Objective:**
+•	Ingest and unify real-time data streams from manufacturing, logistics, e-commerce clickstream, weather, and product systems.
+•	Detect operational disruptions such as shipment delays, manufacturing defects, and supply chain risks as they occur.
+•	Provide real-time visibility through dashboards that enable proactive decision-making.
+•	Monitor customer demand signals to prevent stockouts and improve fulfillment accuracy.
+•	Automate alerts and actions using Microsoft Fabric Activator to reduce reaction time to critical events.
+
+
 # Exercise 1: Environment Setup
 
 ## Task 1: Configure Azure Storage Account with Product data
@@ -76,7 +84,15 @@ incorrect.](./media/image4.png)
     enter the following details to create a storage account and then
     click on **Next**
 
-[TABLE]
+|  |   |
+|----|----|
+|Subscription|	Select your Azure OpenAI subscription|
+|Resource group|	Select your Resource group|
+|Storage account name	|**+++l400storagefabricXXXX+++**( XXXX can be last 4 digits of Lab instant ID)|
+|Region	|Select the appropriate region for your storage account . In this lab East US is take|
+|Performance	|Standard: Recommended for most scenarios (general-purpose v2 account)|
+|Redundancy	|Locally-redundant storage (LRS)|
+
 
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image6.png)
@@ -145,7 +161,19 @@ incorrect.](./media/image9.png)
     enter the below details to create a storage account and then click
     on **Next:Networking**
 
-[TABLE]
+| Setting                | Value / Action |
+|------------------------|----------------|
+| Subscription           | Select your subscription |
+| Resource group         | Select your Resource group |
+| Database name           | +++sqldatabaseXXXX+++ (XXXX = last 4 digits of Lab Instance ID) |
+| Server                  | Select **Create new** |
+| Server name             | +++sqlserverXXXX+++ |
+| Location                | Southeast Asia |
+| Server admin login      | +++sqladmin+++ |
+| Password                | +++password321!+++ |
+| Confirm password        | +++password321!+++ |
+| Action                  | Click **OK** |
+
 
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image16.png)
@@ -158,8 +186,8 @@ incorrect.](./media/image9.png)
 
 4.  On the **Networking** tab, select **Public endpoint**, set **Allow
     Azure services and resources** to **Yes**, enable **Add current
-    client IP address**, and then click **Review + create**.![A
-    screenshot of a computer AI-generated content may be
+    client IP address**, and then click **Review + create**.
+   > ![A screenshot of a computer AI-generated content may be
     incorrect.](./media/image19.png)
 
 5.  On the **Review + create** page, after reviewing, select **Create**
@@ -184,7 +212,7 @@ incorrect.](./media/image9.png)
 > incorrect.](./media/image23.png)
 
 9.  In the **Query editor (preview)**, enter the SQL server **login** as
-    +++**sqladmin**+++ and **password** as +++**password321!**+++, then
+    +++**sqladmin**+++ and **password** as **+++password321!+++**, then
     click **OK** to connect to the database.
 
 > ![A screenshot of a computer AI-generated content may be
@@ -195,24 +223,17 @@ incorrect.](./media/image9.png)
 
 10. To create the **Product** table, paste the following code into the
     **Query editor** and run it to create the stored procedure.
-
-> -- Step 1: Create the Products table
->
-> CREATE TABLE Products (
->
-> ProductId VARCHAR(20) PRIMARY KEY,
->
-> ProductName VARCHAR(100),
->
-> SKU VARCHAR(20),
->
-> Brand VARCHAR(50),
->
-> Category VARCHAR(50),
->
-> UnitCost DECIMAL(10, 2)
->
-> );
+    ```
+    -- Step 1: Create the Products table
+    CREATE TABLE Products (
+        ProductId VARCHAR(20) PRIMARY KEY,
+        ProductName VARCHAR(100),
+        SKU VARCHAR(20),
+        Brand VARCHAR(50),
+        Category VARCHAR(50),
+        UnitCost DECIMAL(10, 2)
+    );
+    ```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image26.png)
@@ -220,28 +241,25 @@ incorrect.](./media/image26.png)
 11. To enable database for **CDC,** paste the following code into the
     **Query editor** and run it to create the stored procedure.
 
-> -- Enable Database for CDC
->
-> EXEC sys.sp_cdc_enable_db;
->
+    ```
+    -- Enable Database for CDC
+    EXEC sys.sp_cdc_enable_db;
+    ```
+
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image27.png)
 
 12. To enable CDC for a table using a gating role option**,** paste the
     following code into the **Query editor** and run it to create the
     stored procedure.
-
-> -- Enable CDC for a table using a gating role option
->
-> EXEC sys.sp_cdc_enable_table
->
-> @source_schema = N'dbo',
->
-> @source_name = N'Products',
->
-> @role_name = NULL
->
-> GO
+```
+-- Enable CDC for a table using a gating role option
+EXEC sys.sp_cdc_enable_table
+    @source_schema = N'dbo',
+    @source_name   = N'Products',
+    @role_name     = NULL
+GO
+```
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image28.png)
@@ -253,50 +271,6 @@ incorrect.](./media/image28.png)
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image29.png)
 
--- Step 2: Insert the product data
-
-INSERT INTO dbo.Products (ProductId, ProductName, SKU, Brand, Category, UnitCost) VALUES
-
-('PROD4000', 'Cyberpunk Hat', 'SKU4000', 'AirRun', 'Altars', 133.79),
-
-('PROD4001', 'CloudShell Jacket', 'SKU4001', 'AirRun', 'Kids', 272.67),
-
-('PROD4002', 'Oldschool Cardigan', 'SKU4002', 'UrbanStep', 'GenZ Pros', 295.88),
-
-('PROD4003', 'TropicFeel Tshirt', 'SKU4003', 'UrbanStep', 'Colours', 138.43),
-
-('PROD4004', 'ClassicWear Hoodie', 'SKU4004', 'ClassicWear', 'Kids', 63.33),
-
-('PROD4005', 'TropicFeel Tshirt', 'SKU4005', 'AirRun', 'GenZ Pros', 182.16),
-
-('PROD4006', 'UrbanStep Shoes', 'SKU4006', 'ZAVA', 'Colours', 36.00),
-
-('PROD4007', 'UrbanStep Shoes', 'SKU4007', 'UrbanStep', 'Altars', 35.92),
-
-('PROD4008', 'UrbanStep Shoes', 'SKU4008', 'ZAVA', 'Altars', 39.18),
-
-('PROD4009', 'Cyberpunk Hat', 'SKU4009', 'AirRun', 'Kids', 53.56),
-
-('PROD4010', 'UrbanStep Shoes', 'SKU4010', 'AirRun', 'GenZ Pros', 193.42),
-
-('PROD4011', 'CloudShell Jacket', 'SKU4011', 'ClassicWear', 'Colours', 281.71),
-
-('PROD4012', 'Oldschool Cardigan', 'SKU4012', 'StreetFlex', 'Altars', 94.36),
-
-('PROD4013', 'Oldschool Cardigan', 'SKU4013', 'StreetFlex', 'Kids', 108.52),
-
-('PROD4014', 'Cyberpunk Hat', 'SKU4014', 'ZAVA', 'Kids', 193.91),
-
-('PROD4015', 'UrbanStep Shoes', 'SKU4015', 'ZAVA', 'GenZ Pros', 170.53),
-
-('PROD4016', 'UrbanStep Shoes', 'SKU4016', 'StreetFlex', 'Altars', 281.30),
-
-('PROD4017', 'Cyberpunk Hat', 'SKU4017', 'AirRun', 'Colours', 99.79),
-
-('PROD4018', 'CloudShell Jacket', 'SKU4018', 'ClassicWear', 'Colours', 191.26),
-
-('PROD4019', 'ClassicWear Hoodie', 'SKU4019', 'ClassicWear', 'GenZ Pros', 206.99);
-
 ## Task 3: Create a Fabric workspace
 
 In this task, you create a Fabric workspace. The workspace contains all
@@ -305,11 +279,13 @@ dataflows, Data Factory pipelines, the notebooks, Power BI datasets, and
 reports.
 
 1.  Open your browser, navigate to the address bar, and type or paste
-    the following URL:
-    +++<https://app.fabric.microsoft.com/+++then> press
+    the following URL:**+++https://app.fabric.microsoft.com/+++** press
     the **Enter** button and sign in with your credentials
 
-[TABLE]
+    |   |    |
+    |-----|----|
+    |Username|	+++@lab.CloudPortalCredential(User1).Username+++|
+    |Password	|+++@lab.CloudPortalCredential(User1).Password+++|
 
 2.  In the Workspaces pane, click on **+New workspace** tile
 
@@ -319,7 +295,12 @@ incorrect.](./media/image30.png)
 3.  In the **Create a workspace** pane that appears on the right side,
     enter the following details, and click on the **Apply** button.
 
-[TABLE]
+|  |    |
+|-----|-----|
+|Name	|**+++RealTimeWorkspace400@lab.LabInstance.Id+++** (can be a unique number)|
+|Advanced	|Under License mode, select **Fabric capacity**|
+|Default|	storage format Small dataset storage format|
+
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image31.png)
@@ -589,10 +570,9 @@ incorrect.](./media/image71.png)
     select **Test query**.
 
 --Init Query
-
-SELECT \* ,CASE WHEN DefectProbability\>0.1 THEN'1' ELSE '0' END AS
-Anamoly FROM \[L400Eventstream-stream\]
-
+```
+SELECT * ,CASE WHEN DefectProbability>0.1 THEN'1' ELSE '0' END AS Anamoly FROM [L400Eventstream-stream]
+```
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image74.png)
 
@@ -618,7 +598,15 @@ incorrect.](./media/image78.png)
 27. Provide the following values in the pane **Eventhouse**. Click the
     button **Save** after you entered all the values.
 
-[TABLE]
+| Field                          | Value |
+|--------------------------------|-------|
+| Event processing before ingestion | Ensure that this option is selected. |
+| Workspace                      | Select **RealTimeWorkspaceXXX**. If you attend the Precon at dataMinds Connectrope, select the Workspace name that was provided to you. |
+| Eventhouse                     | Select the Eventhouse **L400_Eventhouse** |
+| KQL Database                   | Select the KQL Database **L400_Eventhouse** |
+| Destination table              | Click **Create new**, enter **+++manufacturing+++** as the table name, and click **Done** |
+| Input data format              | Ensure that the **JSON** option is selected |
+
 
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image79.png)
@@ -810,7 +798,13 @@ incorrect.](./media/image117.png)
 4.  In Connection settings tab enter the below detail and click on
     Connect button
 
-[TABLE]
+| Field    | Value |
+|----------|-------|
+| Server   | SQL server URL saved in **Exercise 1 → Task 2 → Step 13** |
+| Database | Enter your SQL database |
+| Username | sqladmin |
+| Password | Password321! |
+
 
 > ![A screenshot of a computer AI-generated content may be
 > incorrect.](./media/image118.png)
@@ -865,7 +859,15 @@ incorrect.](./media/image128.png)
 13. Provide the following values in the pane **Eventhouse**. Click the
     button **Save** after you entered all the values.
 
-[TABLE]
+| Field                          | Value |
+|--------------------------------|-------|
+| Event processing before ingestion | Ensure that this option is selected. |
+| Workspace                      | Select **RealTimeWorkspaceXXX**. If you attend the Precon at dataMinds Connectrope, select the workspace name that was provided to you. |
+| Eventhouse                     | Select the Eventhouse **L400_Eventhouse** |
+| KQL Database                   | Select the KQL Database **L400_Eventhouse** |
+| Destination table              | Click **Create new**, enter **+++products+++** as the table name, and click **Done** |
+| Input data format              | Ensure that the **JSON** option is selected |
+
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image129.png)
@@ -887,51 +889,30 @@ incorrect.](./media/image132.png)
 15. Return to the **SQL Database Query Editor**, select **+ New query**,
     paste the provided product data SQL script into the query editor,
     and then execute the query to insert the data.
-
-> -- Step 2: Insert the product data
->
-> INSERT INTO dbo.Products (ProductId, ProductName, SKU, Brand, Category, UnitCost) VALUES
->
-> ('PROD4000', 'Cyberpunk Hat', 'SKU4000', 'AirRun', 'Altars', 133.79),
->
-> ('PROD4001', 'CloudShell Jacket', 'SKU4001', 'AirRun', 'Kids', 272.67),
->
-> ('PROD4002', 'Oldschool Cardigan', 'SKU4002', 'UrbanStep', 'GenZ Pros', 295.88),
->
-> ('PROD4003', 'TropicFeel Tshirt', 'SKU4003', 'UrbanStep', 'Colours', 138.43),
->
-> ('PROD4004', 'ClassicWear Hoodie', 'SKU4004', 'ClassicWear', 'Kids', 63.33),
->
-> ('PROD4005', 'TropicFeel Tshirt', 'SKU4005', 'AirRun', 'GenZ Pros', 182.16),
->
-> ('PROD4006', 'UrbanStep Shoes', 'SKU4006', 'ZAVA', 'Colours', 36.00),
->
-> ('PROD4007', 'UrbanStep Shoes', 'SKU4007', 'UrbanStep', 'Altars', 35.92),
->
-> ('PROD4008', 'UrbanStep Shoes', 'SKU4008', 'ZAVA', 'Altars', 39.18),
->
-> ('PROD4009', 'Cyberpunk Hat', 'SKU4009', 'AirRun', 'Kids', 53.56),
->
-> ('PROD4010', 'UrbanStep Shoes', 'SKU4010', 'AirRun', 'GenZ Pros', 193.42),
->
-> ('PROD4011', 'CloudShell Jacket', 'SKU4011', 'ClassicWear', 'Colours', 281.71),
->
-> ('PROD4012', 'Oldschool Cardigan', 'SKU4012', 'StreetFlex', 'Altars', 94.36),
->
-> ('PROD4013', 'Oldschool Cardigan', 'SKU4013', 'StreetFlex', 'Kids', 108.52),
->
-> ('PROD4014', 'Cyberpunk Hat', 'SKU4014', 'ZAVA', 'Kids', 193.91),
->
-> ('PROD4015', 'UrbanStep Shoes', 'SKU4015', 'ZAVA', 'GenZ Pros', 170.53),
->
-> ('PROD4016', 'UrbanStep Shoes', 'SKU4016', 'StreetFlex', 'Altars', 281.30),
->
-> ('PROD4017', 'Cyberpunk Hat', 'SKU4017', 'AirRun', 'Colours', 99.79),
->
-> ('PROD4018', 'CloudShell Jacket', 'SKU4018', 'ClassicWear', 'Colours', 191.26),
->
-> ('PROD4019', 'ClassicWear Hoodie', 'SKU4019', 'ClassicWear', 'GenZ Pros', 206.99);
-
+```
+-- Step 2: Insert the product data
+INSERT INTO dbo.Products (ProductId, ProductName, SKU, Brand, Category, UnitCost) VALUES
+('PROD4000', 'Cyberpunk Hat', 'SKU4000', 'AirRun', 'Altars', 133.79),
+('PROD4001', 'CloudShell Jacket', 'SKU4001', 'AirRun', 'Kids', 272.67),
+('PROD4002', 'Oldschool Cardigan', 'SKU4002', 'UrbanStep', 'GenZ Pros', 295.88),
+('PROD4003', 'TropicFeel Tshirt', 'SKU4003', 'UrbanStep', 'Colours', 138.43),
+('PROD4004', 'ClassicWear Hoodie', 'SKU4004', 'ClassicWear', 'Kids', 63.33),
+('PROD4005', 'TropicFeel Tshirt', 'SKU4005', 'AirRun', 'GenZ Pros', 182.16),
+('PROD4006', 'UrbanStep Shoes', 'SKU4006', 'ZAVA', 'Colours', 36.00),
+('PROD4007', 'UrbanStep Shoes', 'SKU4007', 'UrbanStep', 'Altars', 35.92),
+('PROD4008', 'UrbanStep Shoes', 'SKU4008', 'ZAVA', 'Altars', 39.18),
+('PROD4009', 'Cyberpunk Hat', 'SKU4009', 'AirRun', 'Kids', 53.56),
+('PROD4010', 'UrbanStep Shoes', 'SKU4010', 'AirRun', 'GenZ Pros', 193.42),
+('PROD4011', 'CloudShell Jacket', 'SKU4011', 'ClassicWear', 'Colours', 281.71),
+('PROD4012', 'Oldschool Cardigan', 'SKU4012', 'StreetFlex', 'Altars', 94.36),
+('PROD4013', 'Oldschool Cardigan', 'SKU4013', 'StreetFlex', 'Kids', 108.52),
+('PROD4014', 'Cyberpunk Hat', 'SKU4014', 'ZAVA', 'Kids', 193.91),
+('PROD4015', 'UrbanStep Shoes', 'SKU4015', 'ZAVA', 'GenZ Pros', 170.53),
+('PROD4016', 'UrbanStep Shoes', 'SKU4016', 'StreetFlex', 'Altars', 281.30),
+('PROD4017', 'Cyberpunk Hat', 'SKU4017', 'AirRun', 'Colours', 99.79),
+('PROD4018', 'CloudShell Jacket', 'SKU4018', 'ClassicWear', 'Colours', 191.26),
+('PROD4019', 'ClassicWear Hoodie', 'SKU4019', 'ClassicWear', 'GenZ Pros', 206.99);
+```
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image134.png)
 
@@ -984,10 +965,11 @@ incorrect.](./media/image142.png)
 2.  Select ResourceGroup1.
 
 3.  In the **Resource Group Overview**, select the storage account named
-    **l400storageXXX**.![A screenshot of a computer AI-generated content
+    **l400storageXXX**.
+    ![A screenshot of a computer AI-generated content
     may be incorrect.](./media/image143.png)
 
-4.  From the left menu, click on the **Access control(IAM**). On the
+5.  From the left menu, click on the **Access control(IAM**). On the
     Access control(IAM) page, Click **+Add** and select **Add role
     assignments**.
 
@@ -1202,4 +1184,9 @@ incorrect.](./media/image179.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image181.png)
+
+Summary:
+This use case focuses on helping Fabrikam, a global retail and e-commerce brand, overcome real-time operational challenges during periods of extreme demand and disruption. A sudden surge in customer traffic, combined with weather-related transit delays and manufacturing quality issues, exposes the lack of real-time visibility across Fabrikam’s supply chain and fulfillment operations.
+Using Microsoft Fabric Real-Time Intelligence, the solution integrates high-velocity data from multiple sources—including manufacturing telemetry, shipment events, e-commerce clickstream, weather data, and product information—into a single operational view. Eventstream, Eventhouse, KQL analytics, real-time dashboards, and Activator alerts work together to detect risks early, visualize live conditions, and trigger automated responses.
+The outcome is a proactive, real-time operational command center that enables Fabrikam to protect customer experience, reduce delays, prevent defective shipments, and maintain business continuity under rapidly changing conditions
 
