@@ -11,11 +11,17 @@ In this lab, Fabrikam extends its real-time intelligence platform to capture and
 •	Ingest real-time clickstream events using Eventstream and custom endpoints.
 
 •	Stream clickstream data into Eventhouse for low-latency analytics.
+
 •	Analyze customer behavior and product demand using Kusto Query Language (KQL).
+
 •	Identify top-demand products and evaluate pricing and cost impact in real time.
+
 •	Build growth opportunity insights based on referral platforms, devices, and traffic trends.
+
 •	Operationalize insights using Dataflow Gen2, Pipelines, and scheduled updates.
+
 •	Visualize real-time demand and traffic patterns using Power BI.
+
 •	Enable AI-driven exploration of real-time data using a Fabric Data Agent.
 
 
@@ -762,6 +768,12 @@ incorrect.](./media/image94.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image95.png)
+
+**Summary**
+>
+This lab builds upon Fabrikam’s real-time operational intelligence foundation by adding customer clickstream analytics to the solution. Using Microsoft Fabric, real-time user interactions from the e-commerce platform are streamed, analyzed, and correlated with product data to reveal demand patterns and revenue opportunities as they emerge.
+Participants implement end-to-end streaming ingestion, perform advanced KQL analytics, automate daily updates, and create interactive Power BI reports that highlight top products, traffic sources, and engagement trends. The lab concludes by enabling AI-powered data exploration, allowing business users to ask natural language questions against live data.
+Together, these capabilities help Fabrikam move from reactive reporting to real-time, customer-driven decision-making, ensuring faster responses to market demand and sustained competitive advantage.
 
 
 
