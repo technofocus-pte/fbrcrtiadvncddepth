@@ -1,8 +1,10 @@
 # Lab 3: Real-Time Product Clickstream Monitoring and Insights using Microsoft Fabric
 
 **Introduction**
+>
 In the previous use case, Fabrikam established real-time visibility across manufacturing, logistics, weather, and shipment operations to proactively manage disruptions. As operational stability improves, the next critical challenge is understanding customer behavior as it happens.
 In this lab, Fabrikam extends its real-time intelligence platform to capture and analyze live product clickstream data from its e-commerce channels. By monitoring customer interactions—such as product clicks, add-to-cart actions, and purchases—teams can detect demand surges instantly, identify high-performing products, and uncover growth opportunities. This lab focuses on transforming raw clickstream events into actionable insights using Microsoft Fabric Real-Time Intelligence.
+>
 **Objectives**
 •	By completing this lab, you will be able to:
 •	Ingest real-time clickstream events using Eventstream and custom endpoints.
@@ -758,4 +760,5 @@ incorrect.](./media/image94.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image95.png)
+
 
