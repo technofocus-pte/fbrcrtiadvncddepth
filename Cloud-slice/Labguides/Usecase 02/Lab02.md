@@ -210,7 +210,7 @@ incorrect.](./media/image11.png)
 //another way to do it is through a function 
 .create-or-alter function with (folder = "UpdatePolicyFunctions", skipvalidation = "true") ParseShippingXML()
 {
- shipping_raw
+ shipping
     | extend parsed = parse_xml(data)
     | extend ShippingEvent = parsed.ShippingEvent
     | extend Products = ShippingEvent.ShippingContents.Product
@@ -370,7 +370,7 @@ incorrect.](./media/image22.png)
     executed, you will see the results.
 ```
 .set-or-append products_silver <|
-products_raw
+products
 | extend Operator = payload.op
 | where  Operator == ("c") 
 | extend ProductId = tostring(['payload']['after']['ProductId'])
@@ -471,7 +471,7 @@ manufacturing
 ```
 //stop operator from production with a defect
 manufacturing
-| where ingestion_time()> ago(1h)
+| where ingestion_time()> ago(24h)
 | top 1 by DefectProbability desc 
 | join kind=inner external_table('operators') on OperatorId
 | join (shipping_silver | where Status == "Dispatched") on ProductId
@@ -594,10 +594,11 @@ incorrect.](./media/image45.png)
 incorrect.](./media/image46.png)
 
 5.  In the Query editor, select **Copilot** from the top menu and use it
-    to generate KQL query ![A screenshot of a computer AI-generated
+    to generate KQL query
+     ![A screenshot of a computer AI-generated
     content may be incorrect.](./media/image47.png)
 
-6.  Enter the following text and click on the **Submit icon** as shown
+7.  Enter the following text and click on the **Submit icon** as shown
     in the below image.
 ```
 Create a real-time dashboard table that shows all operators handling shipments in the last 24 hour.
@@ -866,4 +867,5 @@ incorrect.](./media/image77.png)
 
 ![A screenshot of a computer AI-generated content may be
 incorrect.](./media/image78.png)
+
 
